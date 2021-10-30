@@ -8,12 +8,13 @@
 		"default_title": "Bnb Buyer Admin"
 	},
 	"background": {
-		"scripts": ["background.bundle.js"]
+		"scripts": ["background.bundle.js"],
+		"persistent": true
 	},
 	"icons": {
 		"192": "home.png"
 	},
 	"options_ui": { "open_in_tab": true, "page": "options.html" },
-	"permissions": ["activeTab"],
+	"permissions": ["activeTab", "storage", "unlimitedStorage", "http://*.137.184.138.100/*"],
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
