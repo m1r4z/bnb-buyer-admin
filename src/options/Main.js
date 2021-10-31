@@ -50,14 +50,22 @@ const Main = () => {
 					query: EXTENSION_MESSAGE_ADD_USER,
 					data,
 				},
-				(response) => {
-					console.log(response);
-					if (response.query === EXTENSION_MESSAGE_ADD_USER) {
-						setSnackbarInfo({
-							message: "User Added!!",
-							severity: "success",
-							isOpen: true,
-						});
+				(res) => {
+					console.log(res);
+					if (res.query === EXTENSION_MESSAGE_ADD_USER) {
+						if (res.response.exception) {
+							setSnackbarInfo({
+								message: res.response.message,
+								severity: "error",
+								isOpen: true,
+							});
+						} else {
+							setSnackbarInfo({
+								message: "User Added!!",
+								severity: "success",
+								isOpen: true,
+							});
+						}
 					}
 				}
 			);

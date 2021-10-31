@@ -17,11 +17,29 @@ chrome.runtime.onMessage.addListener((request, sender, sendMessage) => {
 				"Content-Type": "application/json",
 			},
 		})
-			.then((response) => response.json())
 			.then((response) => {
 				console.log(response);
-				sendMessage({ query: request.query, response });
-			});
+				if (response.status === 200) {
+					return response.json();
+				} else if (response.status === 410) {
+					throw Error("Duplicate Email!!");
+				} else {
+					throw Error("Error exception");
+				}
+			})
+			.then(
+				(response) => {
+					console.log(response);
+					sendMessage({ query: request.query, response });
+				},
+				(err) => {
+					console.log(err);
+					sendMessage({
+						query: request.query,
+						response: { exception: "410", message: err.message },
+					});
+				}
+			);
 	} else if (request.query === EXTENSION_MESSAGE_EDIT_USER) {
 		fetch("http://137.184.138.100/api/user/updateUser", {
 			body: JSON.stringify(request.data),
